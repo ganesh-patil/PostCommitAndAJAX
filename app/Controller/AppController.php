@@ -32,4 +32,36 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+    public $components = array(
+        'Session',
+        'Auth' => array(
+            'loginRedirect' => array('controller' => 'posts', 'action' => 'index'),
+            'logoutRedirect' => array('controller' => 'users', 'action' => 'index')
+        ),
+        'SwiftMailer'
+    );
+
+
+    public function sendSmtpMail($data = array()) {
+
+        $this->SwiftMailer->from = $data['from'];
+        $this->SwiftMailer->fromName = $data['fromName'];
+        $this->SwiftMailer->to = $data['to'];
+        $this->SwiftMailer->toName = $data['toName'];
+
+        $this->set('data', $data);
+        if ($data['from'] == null) {
+            return false;
+        } elseif ($data['to'] == null) {
+            return false;
+        } elseif ($data['subject'] == null) {
+            return false;
+        } elseif (!$this->SwiftMailer->send($data['template'], $data['subject'])) {
+            $this->log('Error sending email "$template".', LOG_ERROR);
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
