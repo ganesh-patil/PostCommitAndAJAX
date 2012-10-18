@@ -7,7 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 class UsersController extends AppController {
-    public $helpers = array('Html', 'Form');
+    public $helpers = array('Html', 'Form','Session');
+
+
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -23,11 +25,30 @@ class UsersController extends AppController {
                 $this->redirect($this->Auth->redirect());
             } else {
                 $this->Session->setFlash(__('Invalid username or password, try again'));
+                // $this->Session->flash();
+                $this->redirect(array('action'=>'index'));
             }
         }
+        //$this->autoRender=false;
+    }
+
+    public function add() {
+
+            if ($this->request->is('post')) {
+                $this->User->create();
+                if ($this->User->save($this->request->data)) {
+                    $this->Session->setFlash('Registered');
+                    $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->Session->setFlash('Not registered');
+                }
+            }
+
+
     }
 
     public function logout() {
+        $this->Session->setFlash('Loggegd out');
         $this->redirect($this->Auth->logout());
     }
 }

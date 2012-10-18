@@ -7,8 +7,11 @@
  * To change this template use File | Settings | File Templates.
  */
 class PostsController extends AppController {
-    public $helpers = array('Html', 'Form');
-
+    public $helpers = array('Html', 'Form','Fck');
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('index');
+    }
     public function index() {
         $this->set('posts', $this->Post->find('all'));
     }
@@ -19,7 +22,10 @@ class PostsController extends AppController {
     }
 
     public function add() {
+        if(!($this->Auth->user('role_type')==0))
+        {
         if ($this->request->is('post')) {
+           // pr($this->request->data);die;
             $this->Post->create();
             if ($this->Post->save($this->request->data)) {
                 $this->Session->setFlash('Your post has been saved.');
@@ -27,6 +33,11 @@ class PostsController extends AppController {
             } else {
                 $this->Session->setFlash('Unable to add your post.');
             }
+        }
+    }
+        else{
+            $this->Session->setFlash("you are not authorised to access that location ");
+            $this->redirect(array('action' => 'index'));
         }
     }
 }

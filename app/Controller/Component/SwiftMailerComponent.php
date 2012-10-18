@@ -104,7 +104,6 @@ class SwiftMailerComponent extends Object
 
         //$message->setBody($bodyText, "text/plain");
         $message->addPart($bodyHTML, "text/html");
-
         // Set the from address/name.
         $message->setFrom(array($this->from => $this->fromName));
         $message->setReplyTo(array($this->from => $this->fromName));
@@ -125,11 +124,11 @@ class SwiftMailerComponent extends Object
 
         $transport = Swift_SmtpTransport::newInstance();
 
-        $transport->setHost('smtp.sendgrid.net');
+       $transport->setHost('smtp.sendgrid.net');
         $transport->setPort(465);
         $transport->setEncryption('tls');
-        $transport->setUsername('test');
-        $transport->setPassword('test');
+        $transport->setUsername('ayauto');
+        $transport->setPassword('ayauto');
 
 
         $mailer = Swift_Mailer::newInstance($transport);

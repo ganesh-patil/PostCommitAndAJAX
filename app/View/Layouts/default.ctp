@@ -19,11 +19,8 @@
 //$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
 $cakeDescription = __d('cake_dev', 'Postcomment');
 ?>
-<!doctype html>
-<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <?php echo $this->Html->charset(); ?>
     <title>
@@ -34,14 +31,20 @@ $cakeDescription = __d('cake_dev', 'Postcomment');
     echo $this->Html->meta(array("name"=>"viewport","content"=>"width=device-width,  initial-scale=1.0"));
     echo $this->Html->meta('icon');
 
-    echo $this->Html->css('bootstrap.min');
-    echo $this->Html->css('bootstrap-responsive.min');
+    echo $this->Html->css('bootstrap');
+    echo $this->Html->css('bootstrap-responsive');
     // docs.css is only for this exapmple, remove for app dev
-    echo $this->Html->css('docs');
+    //echo $this->Html->css('docs');
     echo $this->fetch('meta');
     echo $this->fetch('css');
+    //echo $this->fetch('js');
+  //  echo $this->javascript->link('ckeditor/ckeditor', NULL, false);
+
     echo $this->Html->script('libs/modernizr.min');
     echo $this->Html->script('libs/jquery');
+    echo $this->Html->script('ckeditor/ckeditor.js');
+   // echo $this->Html->script('libs/jquery');
+
     echo $this->Html->script('libs/bootstrap.min');
     echo $this->Html->script('bootstrap/application');
     echo $this->fetch('script');
@@ -52,27 +55,31 @@ $cakeDescription = __d('cake_dev', 'Postcomment');
 
 <header class="container">
 
-    <h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
+<!--    <h1>--><?php //echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?><!--</h1>-->
+    <?php echo $this->element('menu/top_menu'); ?>
 
 </header> <!-- /container -->
 
 <div id="container">
     <div id="content">
-        <?php echo $this->Session->flash(); ?>
+<!--        --><?php //echo $this->Session->flash(); ?>
+      <?php   echo $this->Session->flash('flash', array('element' => 'failure')); ?>
 
-<!--        --><?php //echo $this->element('menu/top_menu'); ?>
+
+<?php //echo $this->element('menu/top_menu'); ?>
 
         <?php echo $this->fetch('content'); ?>
     </div>
 </div>
 
 <footer class="container">
-    <?php echo $this->Html->link(
-    $this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-    'http://www.cakephp.org/',
-    array('target' => '_blank', 'escape' => false)
-);
+<!--    --><?php //echo $this->Html->link(
+//    $this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
+//    'http://www.cakephp.org/',
+//    array('target' => '_blank', 'escape' => false)
+//);
     ?>
+    <p>© Company 2012</p>
 </footer><!-- /container -->
 
 <?php //echo $this->element('sql_dump'); ?>

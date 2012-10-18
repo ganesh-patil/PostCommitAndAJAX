@@ -32,7 +32,7 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-
+    public $helpers = array('Html', 'Form','Fck');
     public $components = array(
         'Session',
         'Auth' => array(
@@ -41,8 +41,6 @@ class AppController extends Controller {
         ),
         'SwiftMailer'
     );
-
-
     public function sendSmtpMail($data = array()) {
 
         $this->SwiftMailer->from = $data['from'];
@@ -64,4 +62,6 @@ class AppController extends Controller {
             return true;
         }
     }
+
+
 }

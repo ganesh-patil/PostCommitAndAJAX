@@ -8,26 +8,80 @@
  */
 
 class CommentsController extends AppController {
+   // public $helpers = array('Html', 'Form');
+    public function __sendRegistrationEmail()
+    {
+        //        pr($this->request->data);die;
 
-    public function __sendRegistrationEmail() {
         if ($this->request->is('post') && !empty($this->request->data)) {
-            $data['from'] = 'hi_email@yopmail.com';
-            $data['fromName'] = 'bla bla';
-            $data['to'] = 'hi@yopmail.com';
-            $data['toName'] = 'mmmmm';
+            $data['from'] = 'admin_email@yopmail.com';
+            $data['fromName'] = 'PostComment';
+            $data['to'] = 'ganesh@yopmail.com';
+            $data['toName'] = 'ganesh';
             $data['template'] = 'verify_email'; // this the ctp which goes into your View/Emails/html/verify_email.ctp
-            $data['subject'] = 'Please verify your email';
-            //$data['hash'] = $this->request->dataest->data['User']['hash'];
+            $data['subject'] = 'Welcome to Shoewale!';
             $this->sendSmtpMail($data);
         }
         return true;
+    }
+    public function index() {
+
+        $this->set('comment', $this->Comment->find('all'));
+    }
+    public function approve($id=null)
+    {
+            $comment=$this->Comment->find('first',array('fields'=>array('Comment.id','Comment.is_approved'),$conditions= array('Comment.id'=>$id)));
+           //pr($comment);die;
+        $saveData['Comment']['id']=$comment['Comment']['id'];
+        $saveData['Comment']['is_approved']=1;
+        if($this->Comment->save($saveData))
+        {
+            $this->Session->setFlash('comment approved');
+            $this->redirect(array('controller'=>'comments','action'=>'index'));
+        }
+        else{
+            $this->Session->setFlash('comment not  approved');
+            $this->redirect(array('controller'=>'comments','action'=>'index'));
+        }
+        $this->autoRender=false;
+    }
+    public function disApprove($id=null)
+    {
+
+        $comment=$this->Comment->find('first',array('fields'=>array('Comment.id','Comment.is_approved'),$conditions= array('Comment.id'=>$id)));
+        //pr($comment);die;
+        $saveData['Comment']['id']=$comment['Comment']['id'];
+        $saveData['Comment']['is_approved']=0;
+        if($this->Comment->save($saveData))
+        {
+            $this->Session->setFlash('comment disapproved');
+            $this->redirect(array('controller'=>'comments','action'=>'index'));
+        }
+        else{
+            $this->Session->setFlash('comment not  disapproved');
+            $this->redirect(array('controller'=>'comments','action'=>'index'));
+        }
+        $this->autoRender=false;
+
+    }
+    public function delete($id=null)
+    {
+
+        if ($this->request->is('get')) {
+            throw new MethodNotAllowedException();
+        }
+        if ($this->Comment->delete($id)) {
+            $this->Session->setFlash('The comment with id: ' . $id . ' has been deleted.');
+            $this->redirect(array('action' => 'index'));
+        }
+
+
     }
     public function add() {
         if ($this->request->is('post')) {
             //pr($this->request->data);die;
             $this->Comment->create();
             if ($this->Comment->save($this->request->data)) {
-                $this->Session->setFlash('Your comment has been saved.');
                 if ($this->__sendRegistrationEmail()) {
 
                     $this->Session->setFlash(__('Mail has been sent to you on your email-id'));
@@ -35,12 +89,16 @@ class CommentsController extends AppController {
                 } else {
                     $this->Session->setFlash(__('There may be some error, please try again'));
                 }
+                $this->Session->setFlash('Your comment has been saved.');
+
                 $this->redirect(array('controller'=>'posts','action' => 'index'));
             } else {
                 $this->Session->setFlash('Unable to save your comment.');
             }
         }
     }
+
+
 
 }
 ?>

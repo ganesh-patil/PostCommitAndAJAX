@@ -18,15 +18,22 @@ class AddPostIdInComment extends CakeMigration {
 	public $migration = array(
 		'up' => array(
             'create_field' => array(
-                'Comments' => array(
+                'comments' => array(
                     'post_id' => array(
-                        'type' => 'datetime'),
+                        'type' => 'integer',
+                    'null'    => false,
+                        'length'  => 1,
+                        'default' => 0),
 
                 )
             )
 
 		),
 		'down' => array(
+            'drop_field' => array(
+                'comments' => array(
+                    'post_id')
+                )
 		),
 	);
 
