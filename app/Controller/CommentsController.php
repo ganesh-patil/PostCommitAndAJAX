@@ -36,11 +36,8 @@ class CommentsController extends AppController {
     public function approve($id=null)
     {
            //pr($id);die;
-            $comment=$this->Comment->find('first',array('fields'=>array('Comment.id','Comment.is_approved'),'conditions'=> array('Comment.id'=>$id)));
-           //pr($comment);die;
-        $saveData['Comment']['id']=$comment['Comment']['id'];
-        $saveData['Comment']['is_approved']=1;
-        if($this->Comment->save($saveData))
+        $status=1;
+        if($this->Comment->commentStatus($id,$status))
         {
             $this->Session->setFlash('comment approved');
             $this->redirect(array('controller'=>'comments','action'=>'index'));
@@ -49,24 +46,23 @@ class CommentsController extends AppController {
             $this->Session->setFlash('comment not  approved');
             $this->redirect(array('controller'=>'comments','action'=>'index'));
         }
+
         $this->autoRender=false;
     }
     public function disApprove($id=null)
     {
 
-        $comment=$this->Comment->find('first',array('fields'=>array('Comment.id','Comment.is_approved'),'conditions'=> array('Comment.id'=>$id)));
-        //pr($comment);die;
-        $saveData['Comment']['id']=$comment['Comment']['id'];
-        $saveData['Comment']['is_approved']=0;
-        if($this->Comment->save($saveData))
+        $status=0;
+        if($this->Comment->commentStatus($id,$status))
         {
-            $this->Session->setFlash('comment disapproved');
+            $this->Session->setFlash('comment dis approved');
             $this->redirect(array('controller'=>'comments','action'=>'index'));
         }
         else{
             $this->Session->setFlash('comment not  disapproved');
             $this->redirect(array('controller'=>'comments','action'=>'index'));
         }
+
         $this->autoRender=false;
 
     }

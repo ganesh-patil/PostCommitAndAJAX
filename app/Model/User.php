@@ -8,6 +8,7 @@
  */
 class User extends AppModel {
     public $name = 'User';
+    public $helpers = array('Html', 'Form','Session');
     public $hasMany = array(
 
         'Post' =>array(
@@ -22,6 +23,15 @@ class User extends AppModel {
             $this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
         }
         return true;
+    }
+    public function addUser($data)
+    {
+        $this->create();
+        if ($this->save($data)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 ?>

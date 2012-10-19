@@ -27,18 +27,15 @@ class PostsController extends AppController {
         {
         if ($this->request->is('post')) {
            // pr($this->request->data);die;
-
-            $html_encoded = htmlentities($this->request->data['Post']['post']);
-            $html_encoded=strip_tags($html_encoded);
-            //pr($html_encoded);die;
-            $this->request->data['Post']['post']=$html_encoded;
-            $this->Post->create();
-            if ($this->Post->save($this->request->data)) {
+            if($this->Post->addData($this->request->data))
+            {
                 $this->Session->setFlash('Your post has been saved.');
                 $this->redirect(array('action' => 'index'));
-            } else {
+            }
+            else{
                 $this->Session->setFlash('Unable to add your post.');
             }
+
         }
     }
         else{

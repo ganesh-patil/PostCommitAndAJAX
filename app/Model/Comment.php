@@ -14,6 +14,22 @@ class Comment extends AppModel {
             'foreignKey'   => 'post_id'
         )
     );
+
+
+    public function commentStatus($id,$status)
+    {
+        $comment=$this->find('first',array('fields'=>array('Comment.id','Comment.is_approved'),'conditions'=> array('Comment.id'=>$id)));
+        //pr($comment);die;
+        $saveData['Comment']['id']=$comment['Comment']['id'];
+        $saveData['Comment']['is_approved']=$status;
+        if($this->save($saveData))
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
 
 ?>

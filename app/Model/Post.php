@@ -21,5 +21,18 @@ class Post extends AppModel {
             'foreignKey'   => 'user_id'
         )
     );
+    public function addData($data)
+    {
+        $html_encoded = htmlentities($data['Post']['post']);
+        $html_encoded=strip_tags($html_encoded);
+        //pr($html_encoded);die;
+        $data['Post']['post']=$html_encoded;
+        $this->create();
+        if ($this->save($data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 ?>

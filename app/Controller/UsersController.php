@@ -22,6 +22,11 @@ class UsersController extends AppController {
     public function adminWelcome() {
 
     }
+    public function view($id=null)
+    {
+
+        $this->set('user', $this->User->find('first',array('conditions'=> array('User.id'=>$id))));
+    }
     public function login() {
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
@@ -50,13 +55,17 @@ class UsersController extends AppController {
     public function add() {
 
             if ($this->request->is('post')) {
-                $this->User->create();
-                if ($this->User->save($this->request->data)) {
+                if($this->User->addUser($this->request->data))
+                {
                     $this->Session->setFlash('Registered');
                     $this->redirect(array('action' => 'index'));
-                } else {
-                    $this->Session->setFlash('Not registered');
                 }
+                else
+                {
+                    $this->Session->setFlash(' Not Registered');
+                    $this->redirect(array('action' => 'index'));
+                }
+
             }
 
 
