@@ -10,7 +10,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="#">Post Comment</a>
+            <a class="brand" href="#">PostComment</a>
 </div>
                     <div class="span8">
     <?php  if(empty($userId))
@@ -54,7 +54,7 @@
                  </li>
                  <li class="divider"></li>
                  <li>
-                     <a href="http://postcommit.webonise.com/users" tabindex="-1">User management</a>
+                     <a href="http://postcommit.webonise.com/users" tabindex="-1">User Management</a>
                  </li>
              </ul>
          </li>
