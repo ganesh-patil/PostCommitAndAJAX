@@ -8,7 +8,7 @@
  */
 class FckHelper extends Helper {
 
-    var $helpers = Array('Html', 'Javascript');
+    var $helpers = Array('Html');
 
     function load($id) {
         $did = '';
@@ -17,7 +17,7 @@ class FckHelper extends Helper {
         }
 
         $code = "CKEDITOR.replace( '".$did."' );";
-        return $this->Javascript->codeBlock($code);
+        return $this->Html->codeBlock($code);
     }
 }
 ?>

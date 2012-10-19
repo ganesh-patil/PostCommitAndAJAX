@@ -19,6 +19,9 @@ class UsersController extends AppController {
     public function index() {
         $this->set('users', $this->User->find('all'));
     }
+    public function adminWelcome() {
+
+    }
     public function login() {
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
@@ -30,6 +33,18 @@ class UsersController extends AppController {
             }
         }
         //$this->autoRender=false;
+    }
+
+    public function dashboard()
+    {
+        if ($this->Auth->user('role_type') == 1) {
+            $this->redirect(array('controller' => 'users', 'action' => 'adminWelcome'));
+        }
+        else
+        {
+            $this->redirect(array('controller' => 'posts', 'action' => 'index'));
+        }
+
     }
 
     public function add() {

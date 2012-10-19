@@ -32,15 +32,40 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-    public $helpers = array('Html', 'Form','Fck');
+    public $helpers = array('Html', 'Form','Fck','Js' => array('Jquery'),
+);
     public $components = array(
         'Session',
         'Auth' => array(
-            'loginRedirect' => array('controller' => 'posts', 'action' => 'index'),
-            'logoutRedirect' => array('controller' => 'users', 'action' => 'index')
+            'loginRedirect' => array('controller' => 'users', 'action' => 'dashboard'),
+            'logoutRedirect' => array('controller' => 'posts', 'action' => 'index')
         ),
         'SwiftMailer'
     );
+    public function beforeRender()
+    {
+        parent::beforeRender();
+        $userId=$this->userLoggedIn();
+
+        $roleType=$this->roleType();
+        $this->set(compact('userId','roleType'));
+    }
+    public function userLoggedIn()
+    {
+        $userId= $this->Auth->user('id');
+        if(!empty($userId))
+            return $userId;
+        else
+            return false;
+    }
+    public function roleType()
+    {
+        $roleType=$this->Auth->user('role_type');
+        if($roleType==1)
+            return true;// Admin
+        else
+            return false;//normal user
+    }
     public function sendSmtpMail($data = array()) {
 
         $this->SwiftMailer->from = $data['from'];

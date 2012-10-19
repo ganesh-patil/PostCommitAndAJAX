@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Created by JetBrains PhpStorm.
@@ -10,7 +11,7 @@ class PostsController extends AppController {
     public $helpers = array('Html', 'Form','Fck');
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('index');
+        $this->Auth->allow('index','view');
     }
     public function index() {
         $this->set('posts', $this->Post->find('all'));
@@ -22,10 +23,15 @@ class PostsController extends AppController {
     }
 
     public function add() {
-        if(!($this->Auth->user('role_type')==0))
+        if(($this->Auth->user('role_type')==1))
         {
         if ($this->request->is('post')) {
            // pr($this->request->data);die;
+
+            $html_encoded = htmlentities($this->request->data['Post']['post']);
+            $html_encoded=strip_tags($html_encoded);
+            //pr($html_encoded);die;
+            $this->request->data['Post']['post']=$html_encoded;
             $this->Post->create();
             if ($this->Post->save($this->request->data)) {
                 $this->Session->setFlash('Your post has been saved.');

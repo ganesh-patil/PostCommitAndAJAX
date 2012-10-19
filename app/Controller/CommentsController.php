@@ -28,9 +28,15 @@ class CommentsController extends AppController {
 
         $this->set('comment', $this->Comment->find('all'));
     }
+    public function view() {
+
+        pr($this->request->data);die;
+        //$this->set('comment', $this->Comment->find('all'));
+    }
     public function approve($id=null)
     {
-            $comment=$this->Comment->find('first',array('fields'=>array('Comment.id','Comment.is_approved'),$conditions= array('Comment.id'=>$id)));
+           //pr($id);die;
+            $comment=$this->Comment->find('first',array('fields'=>array('Comment.id','Comment.is_approved'),'conditions'=> array('Comment.id'=>$id)));
            //pr($comment);die;
         $saveData['Comment']['id']=$comment['Comment']['id'];
         $saveData['Comment']['is_approved']=1;
@@ -48,7 +54,7 @@ class CommentsController extends AppController {
     public function disApprove($id=null)
     {
 
-        $comment=$this->Comment->find('first',array('fields'=>array('Comment.id','Comment.is_approved'),$conditions= array('Comment.id'=>$id)));
+        $comment=$this->Comment->find('first',array('fields'=>array('Comment.id','Comment.is_approved'),'conditions'=> array('Comment.id'=>$id)));
         //pr($comment);die;
         $saveData['Comment']['id']=$comment['Comment']['id'];
         $saveData['Comment']['is_approved']=0;
@@ -80,6 +86,9 @@ class CommentsController extends AppController {
     public function add() {
         if ($this->request->is('post')) {
             //pr($this->request->data);die;
+            $html_encoded = htmlentities($this->request->data['Comment']['comment_name']);
+            $html_encoded=strip_tags($html_encoded);
+            $this->request->data['Comment']['comment_name']=$html_encoded;
             $this->Comment->create();
             if ($this->Comment->save($this->request->data)) {
                 if ($this->__sendRegistrationEmail()) {
