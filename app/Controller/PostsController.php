@@ -1,12 +1,5 @@
 
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: webonise
- * Date: 17/10/12
- * Time: 3:50 PM
- * To change this template use File | Settings | File Templates.
- */
 class PostsController extends AppController {
     public $helpers = array('Html', 'Form','Fck');
     public function beforeFilter() {
