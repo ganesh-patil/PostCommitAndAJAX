@@ -44,17 +44,17 @@
              </a>
              <ul id="menu1" class="dropdown-menu" aria-labelledby="drop4" role="menu">
                  <li>
-                     <a href="http://postcommit.webonise.com/posts" tabindex="-1">See posts</a>
+                     <a href="../posts" tabindex="-1">See posts</a>
                  </li>
                  <li>
-                     <a href="http://postcommit.webonise.com/posts/add" tabindex="-1">Add Posts</a>
+                     <a href="../posts/add" tabindex="-1">Add Posts</a>
                  </li>
                  <li>
-                     <a href="http://postcommit.webonise.com/comments" tabindex="-1">Comment Managenet</a>
+                     <a href="../comments" tabindex="-1">Comment Managenet</a>
                  </li>
                  <li class="divider"></li>
                  <li>
-                     <a href="http://postcommit.webonise.com/users" tabindex="-1">User Management</a>
+                     <a href="../users" tabindex="-1">User Management</a>
                  </li>
              </ul>
          </li>

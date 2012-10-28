@@ -97,6 +97,7 @@
  *	));
  */
 CakePlugin::loadAll();
+CakePlugin::load('Migrations');
 Cache::config('default', array('engine' => 'File'));
 
 /**
