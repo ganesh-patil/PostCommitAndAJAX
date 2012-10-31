@@ -36,9 +36,29 @@
  * how to customize the loading of plugin routes.
  */
 	CakePlugin::routes();
+//Router::mapResources(array(':controller'), array('prefix' => '/api/'));
+//$router = Router::getInstance();
+//foreach ($router->routes as &$route)
+//    if (strpos($route->template, '/api/') === 0)
+//        $route->defaults = Set::merge($route->defaults, array(
+//            'prefix' => 'api',
+//            'api' => true
+//        ));
+//Router::mapResources('users');
+
+//Router::resourceMap(array(
+//    array('action' => 'index', 'method' => 'GET', 'id' => false),
+//    array('action' => 'view', 'method' => 'GET', 'id' => true,),
+//    array('action' => 'login', 'method' => 'POST', 'id' => false,'format'=>'json'),
+//    array('action' => 'edit', 'method' => 'PUT', 'id' => true),
+//    array('action' => 'delete', 'method' => 'DELETE', 'id' => true),
+//    array('action' => 'update', 'method' => 'POST', 'id' => true)
+//));
+
 
 /**
  * Load the CakePHP default routes. Remove this if you do not want to use
  * the built-in default routes.
  */
 	require CAKE . 'Config' . DS . 'routes.php';
+Router::parseExtensions('json');

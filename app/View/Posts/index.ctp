@@ -26,6 +26,7 @@
                     echo   $html_decoded . " ";
                 } ?>
                 <?php echo $this->Html->link("Read More", array('controller'=>'posts','action' => 'view',$post['Post']['id'])); ?>
+               <?php echo $this->Facebook->share(); ?>
 <!--                    --><?php //echo $post['Post']['post']; ?><!--</td>-->
 
                     <?php endforeach; ?>

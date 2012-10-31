@@ -2,20 +2,12 @@
 Hello "<?php echo $data['to']?>
 <br/>
 <br/>
-Welcome to Shoewale!
+Welcome to post comment blog!
 <br/>
 <br/>
+Dear Admin,
+  somebody has committed on our post.
 
-Thank you for registering at shoewale.com!
-<br/>
-<br/>
-Now you can buy best suited shoe to your personality from your home.
-<br/>
-<br/>
-<br/>
-    Team,
-<br/>
-Shoewale.com
 <br/>
 <br/>
 <br/>

@@ -51,25 +51,30 @@
 
 
 <!--            --><?php //pr($post);die;?>
-            <h2><?php echo h($post['Post']['post_name']); ?></h2>
+            <h2><?php echo "post Name:      ".($post['Post']['post_name']); ?></h2>
                <?php  $phpdate = $post['Post']['created'];
                 $mysqldate = date( 'Y-m-d', strtotime( $phpdate ) ); ?>
 
                 <p><?php echo $mysqldate ?></p>
 
+<!--                --><?php // pr($post['Post']['post']);die; ?>
 
+                <?php  $html_decoded = html_entity_decode($post['Post']['post']);?>
 
-                <? $html_decoded = html_entity_decode($post['Post']['post']);?>
                 <?php echo $html_decoded; ?><!--</p>-->
-
+<!--            --><?php //pr($post);die; ?>
 
             <?php foreach ($post['Comment'] as $comment):
 
                 if($comment['is_approved']==1)
                 {
-                    echo h($comment['username']);
+
+                    echo h($comment['username'])."   says:";
                     echo '</br>';
-                    echo h($comment['comment_name']);
+
+                    $html_decoded = html_entity_decode($comment['comment_name']);
+                    //pr($html_decoded);die;
+                    echo h($html_decoded);
                     echo '</br>';
 
 

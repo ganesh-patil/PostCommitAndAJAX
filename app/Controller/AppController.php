@@ -32,16 +32,48 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-    public $helpers = array('Html', 'Form','Fck','Js' => array('Jquery'),
-);
+    public $helpers = array('Html', 'Form','Fck','Session','Facebook.Facebook');
     public $components = array(
         'Session',
         'Auth' => array(
             'loginRedirect' => array('controller' => 'users', 'action' => 'dashboard'),
             'logoutRedirect' => array('controller' => 'posts', 'action' => 'index')
         ),
-        'SwiftMailer'
+        'SwiftMailer',
+        'Facebook.Connect',
+        'RequestHandler'
     );
+public function beforeFilter()
+{
+    $this->set('facebook_user',$this->Connect->user());
+}
+//    function beforeFilter() {
+//        parent::beforeFilter();
+//
+//        // For RESTful web service requests, change the authentication mechanism to HTTP basic.
+//        if (array_key_exists('api', $this->params) && $this->params['api']) {
+//            // Prevent the AuthComponent from forwarding the request by setting the loginAction to the current request's URI.
+//            $this->Auth->loginAction = $this->here;
+//
+//            $this->Security->loginOptions = array(
+//                'type' => 'basic',
+//                'login' => '_api_login'
+//            );
+//            $this->Security->requireLogin();
+//        }
+//    }
+//
+//    function _api_login($args) {
+//        // Attempt to find a user record using the API key (username) specified.
+//        $user = $this->Auth->getModel()->findByApiKey($args['username'], array('username', 'password'));
+//
+//        // If a user is found and the credentials are validated by the AuthComponent::login() method, allow the request.
+//        if ($user && $this->Auth->login($user))
+//            $this->Auth->allow($this->params['action']);
+//        else
+//            $this->Security->blackHole($this, 'login');
+//    }
+
     public function beforeRender()
     {
         parent::beforeRender();

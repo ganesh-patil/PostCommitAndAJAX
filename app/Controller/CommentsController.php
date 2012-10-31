@@ -9,6 +9,10 @@
 
 class CommentsController extends AppController {
    // public $helpers = array('Html', 'Form');
+    public function beforeFilter()
+    {
+        $this->Auth->allow('add');
+    }
     public function __sendRegistrationEmail()
     {
         //        pr($this->request->data);die;
@@ -19,7 +23,7 @@ class CommentsController extends AppController {
             $data['to'] = 'ganesh@yopmail.com';
             $data['toName'] = 'ganesh';
             $data['template'] = 'verify_email'; // this the ctp which goes into your View/Emails/html/verify_email.ctp
-            $data['subject'] = 'Welcome to Shoewale!';
+            $data['subject'] = 'Welcome to PostComment!';
             $this->sendSmtpMail($data);
         }
         return true;
@@ -55,7 +59,7 @@ class CommentsController extends AppController {
         $status=0;
         if($this->Comment->commentStatus($id,$status))
         {
-            $this->Session->setFlash('comment dis approved');
+            $this->Session->setFlash('comment disapproved');
             $this->redirect(array('controller'=>'comments','action'=>'index'));
         }
         else{
@@ -80,10 +84,12 @@ class CommentsController extends AppController {
 
     }
     public function add() {
-        if ($this->request->is('post')) {
+        if ($this->request->is('post'))
+        {
             //pr($this->request->data);die;
             $html_encoded = htmlentities($this->request->data['Comment']['comment_name']);
             $html_encoded=strip_tags($html_encoded);
+            //pr($html_encoded);die;
             $this->request->data['Comment']['comment_name']=$html_encoded;
             $this->Comment->create();
             if ($this->Comment->save($this->request->data)) {
@@ -101,6 +107,10 @@ class CommentsController extends AppController {
                 $this->Session->setFlash('Unable to save your comment.');
             }
         }
+        else{
+            $this->Session->setFlash("not added");
+        }
+        $this->autoRender=false;
     }
 
 

@@ -14,6 +14,7 @@ class PostsController extends AppController {
         $this->Auth->allow('index','view');
     }
     public function index() {
+
         $this->set('posts', $this->Post->find('all'));
     }
     public function view($id) {

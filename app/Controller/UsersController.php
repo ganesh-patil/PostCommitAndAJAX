@@ -8,15 +8,47 @@
  */
 class UsersController extends AppController {
     public $helpers = array('Html', 'Form','Session');
-
+      public    $components=array('RequestHandler');
 
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('index', 'add','logout');
+        $this->Auth->authenticate = array(
+            'Form' => array('User' => 'user'),
+            'Basic' => array('User' => 'user')
+        );
+        $this->Auth->allow('index', 'add','logout','login','fetchShoes');
+    }
+
+    public function fetchShoes()
+    {
+        if($this->request->is('post'))
+        {
+            //pr($this->request->data);die;
+        $ch = curl_init('http://shoewala.webonise.com/users.json');
+        //$username="admin@yopmail.com";
+        $data = array("username" => $this->request->data['User']['username'], "password" => $this->request->data['User']['password']);
+        $data_string = json_encode($data);
+        curl_setopt ($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+       // curl_setopt ($ch, CURLOPT_POSTFIELDS, $username);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data_string))
+        );
+        $response=curl_exec ($ch);
+          //  pr($response);
+            $this->log($response);
+        curl_close ($ch);
+
+
+        }
+
     }
 
     public function index() {
+        //log($_POST);
+
         $this->set('users', $this->User->find('all'));
     }
     public function adminWelcome() {
@@ -27,8 +59,15 @@ class UsersController extends AppController {
 
         $this->set('user', $this->User->find('first',array('conditions'=> array('User.id'=>$id))));
     }
-    public function login() {
-        if ($this->request->is('post')) {
+    public function login($username=null,$password=null) {
+
+       // if ($this->request->is('post')) {
+            //pr($this->request->data);die;
+
+            //pr($username);die;
+        $this->request->data['User']['username']=$username;
+        $this->request->data['User']['password']=$password;
+        //pr($this->request->data);die;
             if ($this->Auth->login()) {
                 $this->redirect($this->Auth->redirect());
             } else {
@@ -38,7 +77,7 @@ class UsersController extends AppController {
             }
         }
         //$this->autoRender=false;
-    }
+  //  }
 
     public function dashboard()
     {
@@ -53,8 +92,10 @@ class UsersController extends AppController {
     }
 
     public function add() {
-
+      //  $this->log($_POST);
             if ($this->request->is('post')) {
+                $this->log($_POST);
+
                 if($this->User->addUser($this->request->data))
                 {
                     $this->Session->setFlash('Registered');

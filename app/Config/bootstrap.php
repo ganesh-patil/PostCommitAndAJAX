@@ -97,6 +97,7 @@
  *	));
  */
 CakePlugin::loadAll();
+CakePlugin::load('Facebook');
 Cache::config('default', array('engine' => 'File'));
 
 /**

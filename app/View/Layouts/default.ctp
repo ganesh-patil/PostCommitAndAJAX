@@ -40,14 +40,14 @@ $cakeDescription = __d('cake_dev', 'Postcomment');
     //echo $this->fetch('js');
   //  echo $this->javascript->link('ckeditor/ckeditor', NULL, false);
     echo $this->Html->script(array('jquery-1.8.2','jquery-ui','jquery.validate','jquery.validation.functions','bootstrap-dropdown'));
-    echo $this->Html->script('libs/modernizr.min');
-    echo $this->Html->script('libs/jquery');
+    //echo $this->Html->script('libs/modernizr.min');
+   // echo $this->Html->script('libs/jquery');
     echo $this->Html->script('ckeditor/ckeditor.js');
-   echo $this->Html->script('libs/jquery');
+   //echo $this->Html->script('libs/jquery');
     echo $this->Html->script('ckeditor/ckeditor');
 
-    echo $this->Html->script('libs/bootstrap.min');
-    echo $this->Html->script('bootstrap/application');
+   // echo $this->Html->script('libs/bootstrap.min');
+   // echo $this->Html->script('bootstrap/application');
     echo $this->fetch('script');
     ?>
 

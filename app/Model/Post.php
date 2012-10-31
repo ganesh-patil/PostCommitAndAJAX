@@ -23,6 +23,7 @@ class Post extends AppModel {
     );
     public function addData($data)
     {
+       // pr($data);die;
         $html_encoded = htmlentities($data['Post']['post']);
         $html_encoded=strip_tags($html_encoded);
         //pr($html_encoded);die;
