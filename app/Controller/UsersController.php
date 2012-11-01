@@ -22,23 +22,21 @@ class UsersController extends AppController {
 
     public function fetchShoes()
     {
+        //pr($this->request->data);die;
         if($this->request->is('post'))
         {
-            //pr($this->request->data);die;
-        $ch = curl_init('http://shoewala.webonise.com/users.json');
-        //$username="admin@yopmail.com";
+        $ch = curl_init('http://shoewala.webonise.com/products.json');
         $data = array("username" => $this->request->data['User']['username'], "password" => $this->request->data['User']['password']);
         $data_string = json_encode($data);
         curl_setopt ($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-       // curl_setopt ($ch, CURLOPT_POSTFIELDS, $username);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);//by default this variable is false we have set to true otherwise it will not return anything
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($data_string))
         );
         $response=curl_exec ($ch);
-          //  pr($response);
-            $this->log($response);
+        $this->log($response);
         curl_close ($ch);
 
 
