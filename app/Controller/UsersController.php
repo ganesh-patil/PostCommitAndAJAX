@@ -25,9 +25,40 @@ class UsersController extends AppController {
         //pr($this->request->data);die;
         if($this->request->is('post'))
         {
-        $ch = curl_init('http://shoewala.webonise.com/products.json');
+        $ch = curl_init('http://shoewala.webonise.com/users.json');
         $data = array("username" => $this->request->data['User']['username'], "password" => $this->request->data['User']['password']);
         $data_string = json_encode($data);
+        curl_setopt ($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);//by default this variable is false we have set to true otherwise it will not return anything
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data_string))
+        );
+        $response=curl_exec ($ch);
+        $this->log($response);//http://shoewala.webonise.com/us
+        curl_close ($ch);
+
+        if($response != 'null')
+        {
+            $this->fetchProducts($response);
+        }
+        else
+        {
+            $this->Session->setFlash('Authentication failure');
+            $this->redirect(array('action'=>'fetchShoes'));
+        }
+
+        }
+
+
+    }
+    public function fetchProducts($response)
+    {
+        //pr('in fetch');die;
+        $ch = curl_init('http://shoewala.webonise.com/products.json');
+        $response=array('response'=>$response);
+        $data_string = json_encode($response);
         curl_setopt ($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);//by default this variable is false we have set to true otherwise it will not return anything
@@ -37,11 +68,10 @@ class UsersController extends AppController {
         );
         $response=curl_exec ($ch);
         $this->log($response);
+       // pr($response);die;
         curl_close ($ch);
-
-
-        }
-
+        //$this->autoRender=false;
+        //pr($response);die;
     }
 
     public function index() {
